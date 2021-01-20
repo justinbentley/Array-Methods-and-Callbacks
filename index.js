@@ -26,7 +26,7 @@ Use getFinals to do the following:
 hint - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(data) {
+function getFinals() {
     const allFinals = fifaData.filter(match => match.Stage === "Final");
     return allFinals
 }
@@ -55,7 +55,6 @@ Use the higher-order function getWinners to do the following:
 function getWinners() {
    return getFinals(fifaData).map(match => match["Home Team Goals"] > match["Away Team Goals"]? match ["Home Team Name"] : match["Away Team Name"])
 }
-console.log(getWinners())
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 5: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 Use the higher-order function getWinnersByYear to do the following:
@@ -66,11 +65,23 @@ Use the higher-order function getWinnersByYear to do the following:
 
 hint: the strings returned need to exactly match the string in step 4.
  */
+function getWinnersByYear(arr, cb1, cb2) {
+    const getYears = cb1(getYears,fifaData);
+    const getWinners = cb2(getWinners, fifaData);
 
-function getWinnersByYear(fifaData, getYears, getWinners) {
-    let winners = []
-    return getWinners(fifaData).map(match => match ) `In ${getYears}, ${getWinners} won the world cup!`
+    let winners = [];
+    getYears.forEach((item, index)=> {
+        winners.push(`In ${item}, ${getWinners[index]} won the world cup!`);
+    });
+    return winners;
 }
+
+
+//     let winners = [];
+//     getYears(fifaData).forEach(function(getYears, getWinners){
+//         return winners.push(`In ${getYears()}, ${getWinners()} won the world cup!`);
+//     } )
+// }
 
 
 
@@ -84,14 +95,14 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(getFinals, fifaData) {
+function getAverageGoals(arr, getFinals, fifaData) {
    let avgGoal = getFinals(fifaData).reduce(function(acc, item){
        return (acc + (item["Home Team Goals"] + item["Away Team Goals"]) / 2).toFixed(2);
    }, 0);
-//    return avgGoal;
+   return avgGoal;
 }
 
-
+getAverageGoals(getFinals(fifaData));
 
 
 /// 🥅 STRETCH 🥅 ///
@@ -144,5 +155,5 @@ export default{
     getYears,
     getWinners,
     getWinnersByYear,
-    getAverageGoals
+    // getAverageGoals
 }
